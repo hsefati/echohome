@@ -2,3 +2,5 @@ ecohome.egg-info/*
 __pycache__/
 .env
 *.db
+*.sqlite3
+*.bin
