@@ -10,7 +10,7 @@ from langchain_core.tools import tool
 from langchain_chroma import Chroma
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.document_loaders import TextLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from models.energy import DatabaseManager
 
 # Initialize database manager
