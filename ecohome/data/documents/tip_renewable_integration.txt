@@ -1,0 +1,7 @@
+Title: Renewable Energy Integration for Rooftop Solar
+
+- Align discretionary loads (EVs, dishwashers, washers) with midday solar peaks to maximize self-consumption.
+- If you have batteries, reserve capacity for peak-rate hours and charge from solar earlier in the day.
+- Track cloud forecasts: on cloudy days, shift critical loads earlier while irradiance is highest.
+- Keep panels clean and free of shading to sustain generation; check inverter output weekly.
+- Consider exporting during peak price windows if net metering credits are highest then.

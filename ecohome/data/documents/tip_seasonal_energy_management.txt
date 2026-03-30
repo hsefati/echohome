@@ -1,0 +1,7 @@
+Title: Seasonal Energy Management Guide
+
+- Winter: preheat during low-cost hours, seal drafts, and use ceiling fans on reverse to push warm air down.
+- Summer: pre-cool before peak, close blinds on sunny sides, and ventilate at night if outdoor temps drop.
+- Shoulder seasons: capitalize on free cooling/heating by opening windows when outdoor temp is between 16–22°C.
+- Adjust EV charging start times seasonally to avoid overlapping with heating/cooling surges.
+- Review your tariff changes each season; some utilities shift peak windows in summer.

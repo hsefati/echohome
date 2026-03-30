@@ -1,0 +1,7 @@
+Title: Energy Storage Optimization
+
+- If you have a home battery, reserve 20–30% state-of-charge for peak-rate hours and emergency backup.
+- Charge the battery from solar during midday; discharge into the home during evening peaks.
+- Avoid frequent 0–100% cycles; keep between 20–90% for longevity unless a storm is forecast.
+- Pair battery discharge with EV charging pauses to flatten peaks and minimize demand charges.
+- Monitor round-trip efficiency and prioritize high-value uses (peak shaving over off-peak arbitrage in most cases).

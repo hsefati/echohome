@@ -1,0 +1,7 @@
+Title: HVAC Optimization Strategies for Night-Shift Households
+
+- Pre-cool or pre-heat using cheaper off-peak rates two hours before occupancy, then let the thermostat coast while you're away.
+- Use a smart thermostat to create a reversed schedule for night workers: cooler daytime sleep settings, gentle ramp-up in the evening.
+- Enable fan-only circulation overnight when outside temps are mild to reduce compressor runtime.
+- Keep filters clean and close vents in unused rooms; target comfort zones only.
+- If you have solar, schedule heavy cooling during late-morning/afternoon sun to store “coolth” in the building envelope.

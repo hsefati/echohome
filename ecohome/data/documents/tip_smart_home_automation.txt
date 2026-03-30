@@ -1,0 +1,7 @@
+Title: Smart Home Automation Tips for Load Shifting
+
+- Create automations that delay non-urgent appliances (dishwasher, laundry, pool pump) to off-peak windows or when solar is abundant.
+- Use occupancy sensors to shut off HVAC in unused zones and dim lighting automatically.
+- Stagger EV charging start times to avoid coincident peaks with HVAC or cooking.
+- Pair price alerts with device schedules: when rates spike, pause flexible loads for 30–60 minutes.
+- Track vampire loads with smart plugs and cut power automatically during long idle periods.
