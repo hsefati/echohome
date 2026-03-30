@@ -5,6 +5,7 @@ Tools for EcoHome Energy Advisor Agent
 import os
 import json
 import random
+import requests
 from datetime import datetime, timedelta
 from typing import Dict, Any
 from langchain_core.tools import tool
@@ -18,43 +19,128 @@ from models.energy import DatabaseManager
 db_manager = DatabaseManager()
 
 
-# TODO: Implement get_weather_forecast tool
 @tool
 def get_weather_forecast(location: str, days: int = 3) -> Dict[str, Any]:
     """
-    Get weather forecast for a specific location and number of days.
+    Get a weather forecast for a given location using the OpenWeatherMap free API.
+
+    Uses the 5-day/3-hour forecast endpoint (data/2.5/forecast), which provides
+    forecasts in 3-hour intervals up to 5 days ahead. Solar irradiance is estimated
+    from cloud cover and time of day since the free tier does not provide it directly.
 
     Args:
-        location (str): Location to get weather for (e.g., "San Francisco, CA")
-        days (int): Number of days to forecast (1-7)
+        location: City name or "City, Country" (e.g., "Berlin", "London, GB").
+        days: Number of days to forecast, between 1 and 5 (default: 3).
 
     Returns:
-        Dict[str, Any]: Weather forecast data including temperature, conditions, and solar irradiance
-        E.g:
-        forecast = {
-            "location": ...,
-            "forecast_days": ...,
-            "current": {
-                "temperature_c": ...,
-                "condition": random.choice(["sunny", "partly_cloudy", "cloudy"]),
-                "humidity": ...,
-                "wind_speed": ...
-            },
-            "hourly": [
-                {
-                    "hour": ..., # for hour in range(24)
-                    "temperature_c": ...,
-                    "condition": ...,
-                    "solar_irradiance": ...,
-                    "humidity": ...,
-                    "wind_speed": ...
-                },
-            ]
-        }
+        A dict with keys:
+          - location (str): Resolved city and country.
+          - forecast_days (int): Number of days of data returned.
+          - current (dict): Temperature, condition, humidity, wind_speed.
+          - hourly (list[dict]): 3-hour interval entries with datetime, temperature_c,
+            condition, estimated_solar_irradiance_wm2, humidity, wind_speed.
+          - error (str): Present only if the call failed.
     """
-    # Mock weather API or call OpenWeatherMap or similar
+    # --- Guard: API key ---
+    api_key = os.getenv("OPENWEATHER_API_KEY")
+    if not api_key:
+        return {"error": "OPENWEATHER_API_KEY is not set in environment variables."}
 
-    return
+    # --- Clamp days to free-tier limit ---
+    days = max(1, min(days, 5))
+
+    try:
+        # 1. Geocoding
+        geo_url = (
+            f"http://api.openweathermap.org/geo/1.0/direct"
+            f"?q={location}&limit=1&appid={api_key}"
+        )
+        geo_res = requests.get(geo_url, timeout=10)
+        geo_res.raise_for_status()
+        geo_data = geo_res.json()
+
+        if not geo_data:
+            return {"error": f"Location '{location}' not found. Try 'City, CountryCode' format."}
+
+        lat = geo_data[0]["lat"]
+        lon = geo_data[0]["lon"]
+        resolved_location = f"{geo_data[0]['name']}, {geo_data[0].get('country', '')}"
+
+        # 2. 5-day / 3-hour forecast (free tier)
+        forecast_url = (
+            f"https://api.openweathermap.org/data/2.5/forecast"
+            f"?lat={lat}&lon={lon}&units=metric&appid={api_key}"
+        )
+        forecast_res = requests.get(forecast_url, timeout=10)
+
+        if forecast_res.status_code == 401:
+            return {"error": "Invalid API key or key not yet active (new keys take ~60 min)."}
+
+        forecast_res.raise_for_status()
+        data = forecast_res.json()
+
+        # 3. Current conditions — first forecast entry
+        current_raw = data["list"][0]
+        current = {
+            "temperature_c": current_raw["main"]["temp"],
+            "condition": current_raw["weather"][0]["description"],
+            "humidity": current_raw["main"]["humidity"],
+            "wind_speed": current_raw["wind"]["speed"],
+        }
+
+        # 4. Hourly entries (3-hour steps), limited to requested days
+        limit_count = days * 8  # 8 x 3-hour slots = 24 hours per day
+        hourly_list = []
+
+        for entry in data["list"][:limit_count]:
+            dt = datetime.fromtimestamp(entry["dt"])
+            hour = dt.hour
+            clouds = entry["clouds"]["all"]  # Cloud cover percentage (0–100)
+
+            # Estimate solar irradiance (W/m²) from time-of-day + cloud cover.
+            # Peak window: 10:00–16:00 → up to 800 W/m²
+            # Shoulder window: 07:00–19:00 → up to 200 W/m²
+            # Night: 0 W/m²
+            if 10 <= hour <= 16:
+                base_solar = 800
+            elif 7 <= hour <= 19:
+                base_solar = 200
+            else:
+                base_solar = 0
+
+            estimated_solar = round(base_solar * (1 - clouds / 100), 2)
+
+            hourly_list.append({
+                "datetime": dt.strftime("%Y-%m-%d %H:%M"),
+                "temperature_c": entry["main"]["temp"],
+                "condition": entry["weather"][0]["description"],
+                "estimated_solar_irradiance_wm2": estimated_solar,
+                "humidity": entry["main"]["humidity"],
+                "wind_speed": entry["wind"]["speed"],
+            })
+
+        # Compute actual days covered by the returned data
+        if hourly_list:
+            first_dt = datetime.strptime(hourly_list[0]["datetime"], "%Y-%m-%d %H:%M")
+            last_dt = datetime.strptime(hourly_list[-1]["datetime"], "%Y-%m-%d %H:%M")
+            actual_days = (last_dt - first_dt).days + 1
+        else:
+            actual_days = 0
+
+        return {
+            "location": resolved_location,
+            "forecast_days": actual_days,
+            "current": current,
+            "hourly": hourly_list,
+        }
+
+    except requests.exceptions.Timeout:
+        return {"error": "Request timed out. OpenWeatherMap may be unreachable."}
+    except requests.exceptions.HTTPError as e:
+        return {"error": f"HTTP error from OpenWeatherMap: {e}"}
+    except Exception as e:
+        return {"error": f"Unexpected error: {str(e)}"}
+
 
 
 # TODO: Implement get_electricity_prices tool
@@ -310,8 +396,8 @@ def search_energy_tips(query: str, max_results: int = 5) -> Dict[str, Any]:
             # Load existing vector store
             embeddings = OpenAIEmbeddings(
                 model="text-embedding-3-small",
-                base_url="https://openai.vocareum.com/v1",
-                api_key = "voc-14996861441669502997668699c468cb0a8a5.46343371",
+                base_url=base_url,
+                api_key=api_key,
             )   
             
             vectorstore = Chroma(
@@ -388,3 +474,41 @@ TOOL_KIT = [
     search_energy_tips,
     calculate_energy_savings,
 ]
+
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv() 
+
+def test_tool_output():
+    print("--- Testing LangChain Weather Tool ---")
+    
+    # Define a test location
+    test_location = "San Francisco, US"
+    
+    try:
+        # 2. Call the tool directly using .invoke()
+        # This simulates how a LangChain Agent would trigger it
+        response = get_weather_forecast.invoke({"location": test_location, "days": 3})
+        
+        # 3. Check for errors in the returned dictionary
+        if "error" in response:
+            print(f"❌ Tool Error: {response['error']}")
+            return
+
+        # 4. Print clean results
+        print(f"✅ Success! Data for: {response['location']}")
+        print(f"Current Temp: {response['current']['temperature_c']}°C")
+        print(f"Current Condition: {response['current']['condition']}")
+        
+        # Show first 3 hours of forecast
+        print("\n--- Forecast Snippet (First 3 Hours) ---")
+        for h in response['hourly'][:3]:
+            print(f"Hour {h['hour']:02d}: {h['temperature_c']}°C, {h['condition']}")
+
+    except Exception as e:
+        print(f"💥 Execution failed: {e}")
+
+if __name__ == "__main__":
+    test_tool_output()
