@@ -7,7 +7,7 @@ import json
 import random
 import requests
 from datetime import datetime, timedelta
-from typing import Dict, Any
+from typing import Dict, Any, List
 from langchain_core.tools import tool
 from langchain_chroma import Chroma
 from langchain_openai import OpenAIEmbeddings
@@ -17,6 +17,26 @@ from models.energy import DatabaseManager
 
 # Initialize database manager
 db_manager = DatabaseManager()
+
+# ---------------------------------------------------------------------------
+# Pricing schedule config — US residential time-of-use tariff (national avg)
+# Based on EIA 2026 national average: ~$0.18/kWh
+# Peak/off-peak multipliers modeled on typical US utility TOU structures
+# ---------------------------------------------------------------------------
+PRICING_CONFIG = {
+    "currency": "USD",
+    "unit": "per_kWh",
+    "base_rate": 0.12,          # USD/kWh off-peak (overnight/early morning)
+    "peak_rate": 0.22,          # USD/kWh peak (morning + afternoon peak)
+    "super_peak_rate": 0.32,    # USD/kWh super-peak (4 PM–9 PM, highest grid load)
+    "weekend_base_rate": 0.13,  # Weekends: flat off-peak rate, slightly above overnight
+    "demand_charge_rate": 0.04, # USD/kWh demand surcharge during peak windows
+    # Peak windows (inclusive hour ranges)
+    "morning_peak":  (6, 9),    # 06:00–09:59 — weekday morning ramp
+    "evening_peak":  (16, 21),  # 16:00–21:59 — US standard afternoon/evening peak
+    "super_peak":    (17, 20),  # 17:00–20:59 — inside evening peak, highest demand
+}
+
 
 
 @tool
@@ -142,44 +162,122 @@ def get_weather_forecast(location: str, days: int = 3) -> Dict[str, Any]:
         return {"error": f"Unexpected error: {str(e)}"}
 
 
+def _classify_hour(hour: int, is_weekend: bool) -> Dict[str, Any]:
+    """Return the rate and period label for a given hour."""
+    cfg = PRICING_CONFIG
 
-# TODO: Implement get_electricity_prices tool
+    if is_weekend:
+        return {
+            "rate": cfg["weekend_base_rate"],
+            "period": "off_peak",
+            "demand_charge": 0.0,
+        }
+
+    m_start, m_end = cfg["morning_peak"]
+    e_start, e_end = cfg["evening_peak"]
+    s_start, s_end = cfg["super_peak"]
+
+    if s_start <= hour <= s_end:
+        return {
+            "rate": cfg["super_peak_rate"],
+            "period": "super_peak",
+            "demand_charge": round(cfg["demand_charge_rate"] * 1.5, 4),
+        }
+    elif m_start <= hour <= m_end or e_start <= hour <= e_end:
+        return {
+            "rate": cfg["peak_rate"],
+            "period": "peak",
+            "demand_charge": cfg["demand_charge_rate"],
+        }
+    else:
+        return {
+            "rate": cfg["base_rate"],
+            "period": "off_peak",
+            "demand_charge": 0.0,
+        }
+
+
 @tool
 def get_electricity_prices(date: str = None) -> Dict[str, Any]:
     """
-    Get electricity prices for a specific date or current day.
+    Get hourly electricity prices for a given date using a time-of-use tariff model.
+
+    Prices are based on a configurable peak/off-peak schedule. Peak hours are
+    06:00–09:59 and 17:00–21:59 on weekdays. A super-peak period (18:00–20:59)
+    carries the highest rate and an elevated demand charge. Weekends use a flat
+    lower rate with no demand charges.
 
     Args:
-        date (str): Date in YYYY-MM-DD format (defaults to today)
+        date: Date in YYYY-MM-DD format. Defaults to today.
 
     Returns:
-        Dict[str, Any]: Electricity pricing data with hourly rates
-        E.g:
-        prices = {
-            "date": ...,
-            "pricing_type": "time_of_use",
-            "currency": "USD",
-            "unit": "per_kWh",
-            "hourly_rates": [
-                {
-                    "hour": .., # for hour in range(24)
-                    "rate": ..,
-                    "period": ..,
-                    "demand_charge": ...
-                }
-            ]
-        }
+        A dict with keys:
+          - date (str): The date for which prices are returned.
+          - pricing_type (str): Always "time_of_use".
+          - currency (str): Currency code (e.g. "EUR").
+          - unit (str): Price unit, always "per_kWh".
+          - peak_hours (dict): Summary of peak window definitions.
+          - hourly_rates (list[dict]): 24 entries, one per hour, each with:
+              hour (int), rate (float), period (str), demand_charge (float).
+          - daily_summary (dict): avg_rate, min_rate, max_rate, cheapest_hour,
+              most_expensive_hour.
+          - error (str): Present only if input validation failed.
     """
+    # --- Input validation ---
     if date is None:
         date = datetime.now().strftime("%Y-%m-%d")
 
-    # Mock electricity pricing - in real implementation, this would call a pricing API
-    # Use a base price per kWh
-    # Then generate hourly rates with peak/off-peak pricing
-    # Peak normally between 6 and 22...
-    # demand_charge should be 0 if off-peak
+    try:
+        target_date = datetime.strptime(date, "%Y-%m-%d")
+    except ValueError:
+        return {"error": f"Invalid date format '{date}'. Expected YYYY-MM-DD."}
 
-    return
+    # Reject dates more than 7 days in the future (no forecast available)
+    if target_date.date() > (datetime.now() + timedelta(days=7)).date():
+        return {"error": "Date is more than 7 days in the future. Forecast not available."}
+
+    cfg = PRICING_CONFIG
+    is_weekend = target_date.weekday() >= 5  # Saturday=5, Sunday=6
+
+    # --- Build 24-hour rate schedule ---
+    hourly_rates: List[Dict[str, Any]] = []
+    for hour in range(24):
+        slot = _classify_hour(hour, is_weekend)
+        hourly_rates.append({
+            "hour": hour,
+            "rate": slot["rate"],
+            "period": slot["period"],
+            "demand_charge": slot["demand_charge"],
+        })
+
+    # --- Daily summary (useful context for the LLM) ---
+    rates = [h["rate"] for h in hourly_rates]
+    cheapest_hour = min(hourly_rates, key=lambda h: h["rate"])["hour"]
+    priciest_hour = max(hourly_rates, key=lambda h: h["rate"] + h["demand_charge"])["hour"]
+
+    daily_summary = {
+        "avg_rate": round(sum(rates) / len(rates), 4),
+        "min_rate": min(rates),
+        "max_rate": max(rates),
+        "cheapest_hour": cheapest_hour,
+        "most_expensive_hour": priciest_hour,
+    }
+
+    return {
+        "date": date,
+        "pricing_type": "time_of_use",
+        "currency": cfg["currency"],
+        "unit": cfg["unit"],
+        "is_weekend": is_weekend,
+        "peak_hours": {
+            "morning_peak": f"{cfg['morning_peak'][0]:02d}:00–{cfg['morning_peak'][1]:02d}:59",
+            "evening_peak": f"{cfg['evening_peak'][0]:02d}:00–{cfg['evening_peak'][1]:02d}:59",
+            "super_peak":   f"{cfg['super_peak'][0]:02d}:00–{cfg['super_peak'][1]:02d}:59",
+        },
+        "hourly_rates": hourly_rates,
+        "daily_summary": daily_summary,
+    }
+
 
 
 @tool
@@ -474,41 +572,3 @@ TOOL_KIT = [
     search_energy_tips,
     calculate_energy_savings,
 ]
-
-
-import os
-from dotenv import load_dotenv
-
-load_dotenv() 
-
-def test_tool_output():
-    print("--- Testing LangChain Weather Tool ---")
-    
-    # Define a test location
-    test_location = "San Francisco, US"
-    
-    try:
-        # 2. Call the tool directly using .invoke()
-        # This simulates how a LangChain Agent would trigger it
-        response = get_weather_forecast.invoke({"location": test_location, "days": 3})
-        
-        # 3. Check for errors in the returned dictionary
-        if "error" in response:
-            print(f"❌ Tool Error: {response['error']}")
-            return
-
-        # 4. Print clean results
-        print(f"✅ Success! Data for: {response['location']}")
-        print(f"Current Temp: {response['current']['temperature_c']}°C")
-        print(f"Current Condition: {response['current']['condition']}")
-        
-        # Show first 3 hours of forecast
-        print("\n--- Forecast Snippet (First 3 Hours) ---")
-        for h in response['hourly'][:3]:
-            print(f"Hour {h['hour']:02d}: {h['temperature_c']}°C, {h['condition']}")
-
-    except Exception as e:
-        print(f"💥 Execution failed: {e}")
-
-if __name__ == "__main__":
-    test_tool_output()
