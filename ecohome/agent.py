@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage
 from langgraph.prebuilt import create_react_agent
-from tools import TOOL_KIT
+from ecohome.tools import TOOL_KIT
 
 load_dotenv()
 
