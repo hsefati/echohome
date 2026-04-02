@@ -462,10 +462,16 @@ def search_energy_tips(query: str, max_results: int = 5) -> Dict[str, Any]:
         if not os.path.exists(os.path.join(persist_directory, "chroma.sqlite3")):
             # Load documents
             documents = []
-            for doc_path in [
+            document_paths = [
                 "data/documents/tip_device_best_practices.txt",
                 "data/documents/tip_energy_savings.txt",
-            ]:
+                "data/documents/tip_energy_storage.txt",
+                "data/documents/tip_hvac_optimization.txt",
+                "data/documents/tip_renewable_integration.txt",
+                "data/documents/tip_seasonal_energy_management.txt",
+                "data/documents/tip_smart_home_automation.txt"
+            ]
+            for doc_path in document_paths:
                 if os.path.exists(doc_path):
                     loader = TextLoader(doc_path)
                     docs = loader.load()
