@@ -1,7 +1,58 @@
-Title: Renewable Energy Integration for Rooftop Solar
+Renewable Energy Integration for Rooftop Solar Systems
 
-- Align discretionary loads (EVs, dishwashers, washers) with midday solar peaks to maximize self-consumption.
-- If you have batteries, reserve capacity for peak-rate hours and charge from solar earlier in the day.
-- Track cloud forecasts: on cloudy days, shift critical loads earlier while irradiance is highest.
-- Keep panels clean and free of shading to sustain generation; check inverter output weekly.
-- Consider exporting during peak price windows if net metering credits are highest then.
+MAXIMIZING SOLAR SELF-CONSUMPTION:
+- Align discretionary loads with midday solar peaks (10 AM - 3 PM) to maximize self-consumption
+- Schedule flexible devices: EV charging, dishwasher, laundry, pool pumps during peak solar hours
+- Self-consumed solar avoids transmission losses and typically saves 15-25% vs. grid electricity
+- Estimated ROI improvement: 3-5 years reduction in payback period with smart scheduling
+- Smart home automation can automatically shift loads to solar generation windows
+
+BATTERY INTEGRATION WITH SOLAR:
+- Reserve battery capacity for peak-rate hours to maximize financial returns
+- Charge home battery from solar earlier in the day (midday peak generation)
+- Prioritize battery charging during highest solar irradiance periods
+- Discharge battery during evening peak rates (5 PM - 9 PM) when solar generation ends
+- Combined solar+battery strategy can eliminate 70-90% of grid electricity consumption
+
+WEATHER FORECASTING & LOAD OPTIMIZATION:
+- Monitor cloud forecasts: On cloudy days, shift critical loads to early morning while irradiance is highest
+- Plan heavy electricity use (laundry, EV charging) on sunny forecasted days
+- Reduce discretionary loads on predicted low-generation days
+- Utilize weather alerts to trigger automatic load shifting via smart automation
+- Estimated savings: 5-10% by avoiding high grid consumption during low solar generation periods
+
+SOLAR PANEL MAINTENANCE & PERFORMANCE:
+- Keep panels clean and free of shading to sustain generation and efficiency
+- Dust and debris can reduce output by 5-25% depending on accumulation
+- Check inverter output weekly to verify normal operation
+- Annual professional cleaning recommended in dusty or pollen-heavy regions
+- Trim tree branches that shade panels seasonally as vegetation grows
+- Maintain 10-20% performance improvement vs. unmaintained systems
+
+NET METERING & EXPORT OPTIMIZATION:
+- Consider exporting excess solar during peak-rate windows if net metering credits are highest then
+- Typical net metering: Credits for exported solar equal to average retail rate
+- Some utilities offer time-of-export rates: Higher credits during peak hours
+- Calculate export vs. storage strategy: Battery storage vs. grid credit tradeoff
+- Coordinate battery discharge timing with export rate incentives
+
+SEASONAL SOLAR PRODUCTION PATTERNS:
+- Winter: Lower solar output; prioritize load scheduling for morning peak generation
+- Summer: Higher solar output; schedule heavy loads midday for maximum self-consumption
+- Spring/Fall: Moderate production; balance between load shifting and battery storage
+- Adjust load schedules seasonally based on typical solar generation patterns
+- Plan major energy-intensive activities for high-production seasons
+
+SOLAR SYSTEM MONITORING & OPTIMIZATION:
+- Monitor daily solar generation data to understand production patterns
+- Identify seasonal trends and adjust device scheduling accordingly
+- Compare actual generation to expected output to detect panel issues
+- Use solar app or utility integration to track real-time production and consumption
+- Leverage historical data to optimize future load scheduling decisions
+
+COMPLEMENTARY RENEWABLE SOURCES:
+- Understand how your solar system interacts with other renewables if available
+- Wind generation patterns (higher evening/winter) complement solar
+- Coordinate load scheduling to utilize both sources efficiently
+- If available, prioritize timing loads to match renewable generation profile
+- Reduces reliance on grid and maximizes environmental benefits

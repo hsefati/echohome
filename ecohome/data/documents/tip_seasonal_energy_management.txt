@@ -1,7 +1,63 @@
-Title: Seasonal Energy Management Guide
+Seasonal Energy Management Guide for Year-Round Optimization
 
-- Winter: preheat during low-cost hours, seal drafts, and use ceiling fans on reverse to push warm air down.
-- Summer: pre-cool before peak, close blinds on sunny sides, and ventilate at night if outdoor temps drop.
-- Shoulder seasons: capitalize on free cooling/heating by opening windows when outdoor temp is between 16–22°C.
-- Adjust EV charging start times seasonally to avoid overlapping with heating/cooling surges.
-- Review your tariff changes each season; some utilities shift peak windows in summer.
+WINTER ENERGY OPTIMIZATION (December - February):
+- Pre-heat using cheaper off-peak rates in early morning before temperature drops
+- Winter setpoint strategy: 68°F during occupied hours, 62-65°F during sleep/away
+- Seal drafts around windows and doors; weather-stripping prevents heat loss (5-10% savings)
+- Use ceiling fans on reverse setting (low speed) to push warm air down from ceiling
+- Winter heating accounts for 40-50% of annual energy use; optimization critical for savings
+- Strategy: Pre-heat before peak rates begin, maintain with thermostat coasting
+- Estimated savings: 15-25% on heating costs with smart temperature management
+
+SUMMER ENERGY OPTIMIZATION (June - August):
+- Pre-cool home during early morning off-peak hours before heat builds
+- Summer setpoint strategy: 78°F during occupied hours, cooler if using AC during peaks
+- Close blinds and curtains on sunny sides during daytime to reduce solar heat gain
+- Enable fan-only circulation overnight when outdoor temperatures drop below 70°F
+- Use ceiling fans to create air circulation; feels 4-8°F cooler without lowering thermostat
+- Raise thermostat temperature 2-4°F when fans are running for additional savings
+- Summer cooling accounts for 30-40% of annual energy; peak-rate optimization most critical
+- Estimated savings: 20-30% on cooling costs with strategic management
+
+SHOULDER SEASONS STRATEGIES (March-May, September-November):
+- Capitalize on free cooling/heating by opening windows when outdoor temp is 16-22°C (60-72°F)
+- Monitor weather forecasts for mild temperature windows
+- Use natural ventilation to reduce HVAC operation during shoulder seasons
+- Potential savings: 40-60% HVAC reduction during optimal weather periods
+- Close windows/doors when outdoor temp drifts outside comfort range
+- Reduces electricity consumption 25-35% in shoulder months vs. summer/winter
+
+EV CHARGING SEASONAL ADJUSTMENTS:
+- Winter: Start EV charging later (post-midnight) to avoid heating conflicts with HVAC
+- Cold weather EV preheating uses significant electricity; coordinate with off-peak periods
+- Summer: Schedule EV charging for midday solar generation or early morning off-peak hours
+- Avoid simultaneous EV charging and AC cooling during peak-rate hours
+- Estimated seasonal variation: 20-30% more charging energy required in winter vs. summer
+
+UTILITY RATE CHANGES & SEASONAL OPTIMIZATION:
+- Review your utility tariff changes each season; many utilities shift peak windows
+- Some utilities implement different rate schedules seasonally
+- Winter rates may differ significantly from summer time-of-use pricing
+- Adjust load-shifting strategy to match new rate structure each season
+- Common pattern: Longer peak windows in summer (5 PM - 9 PM vs 4 PM - 8 PM in winter)
+
+DEVICE-SPECIFIC SEASONAL OPTIMIZATION:
+- Water heater: May require less heating in summer; consider timer shutdown
+- Pool pumps: Run longer schedules during summer for maintenance, off-peak in winter
+- Dishwasher/laundry: Shift from winter afternoon scheduling to summer midday solar hours
+- Hot water usage increases in winter (showers); decrease in summer
+- Estimated seasonal consumption variation: 15-25% depending on device type
+
+HVAC MAINTENANCE SEASONAL SCHEDULE:
+- Spring: Clean AC condenser coils before cooling season begins
+- Summer: Check HVAC operation weekly; monitor for efficiency decline
+- Fall: Service furnace and heat pump before winter heating demand
+- Winter: Replace air filters monthly; clean filters reduce heating energy by 5-10%
+- Regular seasonal maintenance improves efficiency 10-15% vs. neglected systems
+
+DEMAND RESPONSE PEAK PLANNING:
+- Many utilities offer demand response programs with different peaks by season
+- Summer peaks typically: 5 PM - 9 PM during high cooling demand
+- Winter peaks may shift earlier (4 PM - 8 PM) depending on region
+- Plan battery discharge, EV charging, and appliance use around seasonal peak windows
+- Participating in demand response can reduce peak-hour charges by 10-20%

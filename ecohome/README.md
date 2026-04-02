@@ -40,18 +40,34 @@ ecohome_starter/
 
 ### 1. Install Dependencies
 
+You can use either `uv` (faster, recommended) or `pip`:
+
+**Using uv (recommended):**
+```bash
+uv sync
+```
+
+**Or using pip:**
 ```bash
 pip install -r requirements.txt
 ```
 
+**Note:** This project uses `pyproject.toml` for dependency management. The `uv sync` command will install all dependencies and set up the development environment automatically.
+
 ### 2. Set Environment Variables
 
-Create a `.env` file with your API keys:
+Create a `.env` file in the root directory with your API keys:
 
 ```bash
 VOCAREUM_API_KEY=your_vocareum_api_key_here
-OPENAI_API_KEY=your_openai_api_key_here
+VOCAREUM_BASE_URL=https://openai.vocareum.com/v1
+OPENWEATHER_API_KEY=your_openweather_api_key_here
 ```
+
+**Required Environment Variables:**
+- `VOCAREUM_API_KEY`: Your Vocareum API key for LLM and embeddings (required for agent and RAG pipeline)
+- `VOCAREUM_BASE_URL`: The Vocareum OpenAI-compatible base URL for API calls
+- `OPENWEATHER_API_KEY`: Your OpenWeather API key for weather forecast and solar irradiance predictions (required for weather tools)
 
 ### 3. Run the Notebooks
 

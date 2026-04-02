@@ -1,7 +1,43 @@
-Title: Energy Storage Optimization
+Home Energy Storage (Battery) Optimization Guide
 
-- If you have a home battery, reserve 20–30% state-of-charge for peak-rate hours and emergency backup.
-- Charge the battery from solar during midday; discharge into the home during evening peaks.
-- Avoid frequent 0–100% cycles; keep between 20–90% for longevity unless a storm is forecast.
-- Pair battery discharge with EV charging pauses to flatten peaks and minimize demand charges.
-- Monitor round-trip efficiency and prioritize high-value uses (peak shaving over off-peak arbitrage in most cases).
+BATTERY STATE-OF-CHARGE MANAGEMENT:
+- Reserve 20-30% state-of-charge for peak-rate hours to maximize financial value
+- Maintain reserve capacity for emergency backup during outages or critical periods
+- Avoid frequent 0-100% discharge cycles that degrade battery lifespan
+- Keep battery between 20-90% for longevity unless storm forecast requires full charge
+- Full charge only when severe weather or extended outages are forecasted
+
+CHARGING & DISCHARGING STRATEGIES:
+- Charge battery from solar during midday hours (10 AM - 2 PM) when irradiance is highest
+- Discharge during evening peak hours (5 PM - 9 PM) when electricity rates are highest
+- Strategy maximizes self-consumption of solar energy and minimizes peak-rate charges
+- Pair battery discharge with EV charging pauses to flatten demand peaks
+- Staggered discharge reduces demand charges which are often based on peak usage
+
+EFFICIENCY & ECONOMIC OPTIMIZATION:
+- Monitor round-trip efficiency (charge losses + discharge losses) typically 80-90%
+- Prioritize high-value uses: peak shaving typically offers better ROI than off-peak arbitrage
+- Peak shaving strategy: Use battery during highest-rate hours to reduce demand charges
+- Off-peak arbitrage: Charge during low-rate hours, discharge during high-rate hours
+- Calculate cost of battery operation vs. benefit of avoided peak rates
+
+INTEGRATION WITH SOLAR & HOUSEHOLD LOADS:
+- Size battery capacity to match peak evening loads for maximum demand charge reduction
+- Time-align solar charging with high afternoon/evening loads to reduce battery cycling
+- Coordinate battery discharge with high-consumption periods (EV charging, HVAC)
+- Avoid simultaneous charging and discharging to minimize efficiency losses
+- Smart home automation can optimize battery operation without manual intervention
+
+SEASONAL OPTIMIZATION:
+- Summer: Prioritize discharging during peak cooling hours (peak shaving)
+- Winter: May have lower solar generation; reserve more capacity for cold weather peaks
+- Shoulder seasons: Balance between peak shaving and solar self-consumption strategies
+- Adjust discharge start time seasonally based on sunset time and utility peak hours
+- Review utility rate changes quarterly and adjust battery strategy accordingly
+
+MAINTENANCE & LONGEVITY:
+- Keep battery in cool environment (ideal 20-25°C) to extend lifespan
+- Extreme temperatures reduce round-trip efficiency and battery cycle life
+- Regular software updates ensure optimal battery management algorithms
+- Monitor battery health metrics through system app or utility integration
+- Typical residential battery lifespan: 10-15 years with proper management

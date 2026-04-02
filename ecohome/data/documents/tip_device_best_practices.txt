@@ -1,37 +1,53 @@
-Large devices like electric vehicles, washing machines and dishwashers often support delayed start or timer functions. Schedule these devices to run outside of peak electricity pricing hours or during periods of high solar generation. Consult your device manual for specific scheduling instructions.
+Device-Specific Best Practices for Energy Optimization
 
-Electric Vehicle Charging:
-- Charge during off-peak hours (typically 11 PM to 6 AM) to save money
-- Use Level 2 charging at home for faster charging when needed
-- Set charging to complete just before you need the vehicle
-- Consider charging during peak solar generation hours if you have solar panels
+Large devices like electric vehicles, washing machines, and dishwashers often support delayed start or timer functions. This creates opportunities for significant cost savings by strategically scheduling them during off-peak electricity pricing hours or periods of high solar generation. Smart scheduling can reduce device operating costs by 20-40%.
 
-Washing Machine Optimization:
-- Run full loads to maximize efficiency
-- Use cold water for most loads to save energy
-- Schedule loads during off-peak hours or when solar generation is high
-- Clean the machine regularly to maintain efficiency
+ELECTRIC VEHICLE (EV) CHARGING STRATEGY:
+- Optimal charging windows: 11 PM to 6 AM (typical off-peak rates) or during peak solar generation (10 AM - 3 PM)
+- Use Level 2 (240V) charging at home for 3-5x faster charging than Level 1
+- Ideal daily strategy: Charge to 80% during off-peak hours; top off to 100% before needed
+- Solar homes: Prioritize charging 11 AM - 2 PM when solar irradiance is highest
+- Estimated savings: $40-80/month by shifting EV charging to off-peak hours
+- Benefit from time-of-use (TOU) rates and demand charge reductions
 
-Dishwasher Best Practices:
-- Only run when completely full
-- Use the energy-saving or eco mode when available
-- Schedule during off-peak hours or high solar generation periods
-- Skip the heated dry cycle and air dry instead
+WASHING MACHINE & DRYER OPTIMIZATION:
+- Energy tip: Run full loads only—this is the single largest factor (40% efficiency gain)
+- Water temperature: Cold water saves 80-90% of washing energy; suitable for 90% of loads
+- Dryer usage: Moisture sensor mode reduces energy by 20-30% vs. timed drying
+- Maintenance: Clean lint trap after every load to maintain efficiency and reduce fire risk
+- Optimal scheduling: Run during off-peak hours, especially if you have solar (midday loads)
+- Estimated savings: $15-25/month with optimized scheduling and techniques
 
-Water Heater Management:
-- Set temperature to 120°F for optimal efficiency
-- Insulate hot water pipes to reduce heat loss
-- Consider a timer to turn off during peak hours
-- Drain sediment annually to maintain efficiency
+DISHWASHER BEST PRACTICES:
+- Only run when completely full; partial loads waste 20-30% more energy per dish
+- Eco-mode or energy-saving setting reduces energy and water by 15-25%
+- Skip heated dry cycle: Air dry or crack door after cycle; saves 10-15% per wash
+- Optimal timing: Run during off-peak windows or high solar generation periods
+- Estimated savings: $5-10/month with smart scheduling
 
-HVAC System Optimization:
-- Change air filters monthly for better airflow
-- Clean outdoor condenser coils annually
-- Use programmable thermostats to adjust temperatures automatically
-- Seal ductwork to prevent air leaks
+WATER HEATER MANAGEMENT:
+- Temperature setting: 120°F provides optimal balance between efficiency and comfort
+- Insulate hot water pipes to reduce transmission losses by 10-15%
+- Timer strategy: Turn off during peak hours or when away for extended periods
+- Annual maintenance: Drain sediment to maintain efficiency and extend unit lifespan
+- Estimated savings: $10-20/month with proper management
 
-Pool and Spa Equipment:
-- Run pool pumps during off-peak hours
-- Use pool covers to reduce heating needs
-- Consider variable-speed pumps for better efficiency
-- Maintain proper chemical balance to reduce filtration needs
+HVAC SYSTEM MAINTENANCE:
+- Air filter changes: Monthly maintenance improves airflow and reduces compressor strain by 5-10%
+- Outdoor condenser coils: Annual cleaning removes dust buildup, improving efficiency by 5%
+- Programmable thermostat: Automated setbacks can save 10-15% on annual heating/cooling
+- Ductwork sealing: Reduces conditioned air loss by 10-20%
+
+POOL AND SPA EQUIPMENT:
+- Pool pump scheduling: Run during off-peak hours to reduce electricity costs by 40-60%
+- Variable-speed pumps: Use 50-90% less energy than single-speed models
+- Pool covers: Reduce heating needs by 50-75% by minimizing evaporation
+- Chemical balance: Proper maintenance reduces filtration needs and extends equipment life
+- Estimated savings: $30-100/month depending on pool size and climate
+
+UNIVERSAL DEVICE OPTIMIZATION PRINCIPLES:
+1. Schedule flexible loads during off-peak pricing windows
+2. Coordinate with solar generation when available
+3. Avoid coincident peaks (multiple devices running simultaneously)
+4. Regular maintenance extends device lifespan and maintains efficiency
+5. Use smart home automation to enforce optimal scheduling automatically
